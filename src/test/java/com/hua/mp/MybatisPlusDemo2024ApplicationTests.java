@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.hua.mp.dao.entity.User;
 import com.hua.mp.dao.mapper.UserMapper;
+import com.hua.mp.service.i.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -21,9 +22,11 @@ class MybatisPlusDemo2024ApplicationTests {
 	private UserMapper userMapper;
 
 	@Test
-	void contextLoads() {
+	void selectList() {
 		List<User> users = userMapper.selectList(null);
-		users.forEach(System.out::println);
+		users.forEach(user -> {
+			log.info("{}", user);
+		});
 	}
 
 	@Test
@@ -73,4 +76,51 @@ class MybatisPlusDemo2024ApplicationTests {
 		log.info("删除结果：{}", result);
 	}
 
+	@Test
+	void queryUserById() {
+		User user = userMapper.selectById(1);
+		log.info("{}", user);
+	}
+
+	@Test
+	void selectBatchIds() {
+		List<User> list = userMapper.selectBatchIds(Arrays.asList(1, 2, 3));
+		list.forEach(user -> {
+			log.info("{}", user);
+		});
+	}
+
+	@Test
+	void selectByMap() {
+		Map<String, Object> params = new HashMap<>(4);
+		params.put("age", 18);
+		params.put("name", "飞流");
+		List<User> list = userMapper.selectByMap(params);
+		list.forEach(user -> {
+			log.info("{}", user);
+		});
+	}
+
+	@Autowired
+	private IUserService iUserService;
+
+	@Test
+	void getUserCount() {
+		final long count = iUserService.count();
+		log.info("统计：{}", count);
+	}
+
+	@Test
+	void getById() {
+		User user = iUserService.getById(1L);
+		log.info("查询：{}", user);
+	}
+
+	@Test
+	void list() {
+		List<User> users = iUserService.list(null);
+		for (User user : users) {
+			log.info("查询：{}", user);
+		}
+	}
 }
