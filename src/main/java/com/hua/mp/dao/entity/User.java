@@ -1,5 +1,6 @@
 package com.hua.mp.dao.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -15,4 +16,7 @@ public class User {
 	private Integer age;
 
 	private String email;
+
+	@TableLogic
+	private Integer delFlag;
 }

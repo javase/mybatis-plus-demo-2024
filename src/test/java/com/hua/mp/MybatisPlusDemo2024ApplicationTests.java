@@ -56,7 +56,7 @@ class MybatisPlusDemo2024ApplicationTests {
 	@Test
 	void deleteById() {
 		User user = User.builder()
-				.id(1746800811943456769L)
+				.id(1L)
 				.build();
 		int result = userMapper.deleteById(user);
 		log.info("删除结果：{}", result);
