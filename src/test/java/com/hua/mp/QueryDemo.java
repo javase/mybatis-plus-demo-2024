@@ -1,8 +1,10 @@
 package com.hua.mp;
 
 import java.util.List;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.hua.mp.dao.entity.User;
 import com.hua.mp.dao.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -37,5 +39,61 @@ class QueryDemo {
 		wrapper.orderByAsc("age").orderByDesc("id");
 		final List<User> users = userMapper.selectList(wrapper);
 		users.forEach(user -> log.info("{}", user));
+	}
+
+	@Test
+	void andOr() {
+		// 查询出年龄大于20并且姓名中包含的有'o' 或者 邮箱地址为空的记录
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		wrapper.and(item -> item.gt("age", 20).like("name", "o"))
+				.or(item -> item.isNull("email"));
+		final List<User> users = userMapper.selectList(wrapper);
+		users.forEach(user -> log.info("{}", user));
+	}
+
+	/**
+	 * 查询指定的字段
+	 */
+	@Test
+	void querySomeColumns() {
+		// 查询出年龄大于20并且姓名中包含的有'o' 或者 邮箱地址为空的记录
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		wrapper.and(item -> item.gt("age", 20).like("name", "o"))
+				// 默认是通过and连接 显示加上 or()方法表示or连接
+				.or(item -> item.isNull("email"));
+		// 指定特定的字段
+		wrapper.select("id", "name");
+		//selectMaps()返回Map集合列表，通常配合select()使用，避免User对象中没有被查询到的列值为null
+		final List<Map<String, Object>> maps = userMapper.selectMaps(wrapper);
+		maps.forEach(a -> log.info("{}  {}", a, a.getClass()));
+	}
+
+	/**
+	 * 子查询
+	 */
+	@Test
+	void subQuery() {
+		// 子查询
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		wrapper.inSql("id", "select id from t_user where id < 6");
+		// 指定特定的字段
+		wrapper.select("id", "name");
+		//selectMaps()返回Map集合列表，通常配合select()使用，避免User对象中没有被查询到的列值为null
+		final List<Map<String, Object>> maps = userMapper.selectMaps(wrapper);
+		maps.forEach(a -> log.info("{}  {}", a, a.getClass()));
+	}
+
+	/**
+	 * 更新用户Tom的姓名和年龄信息
+	 */
+	@Test
+	void updateWrapper() {
+		// 子查询
+		UpdateWrapper<User> wrapper = new UpdateWrapper<>();
+		wrapper.set("name", "TomeJerry")
+				.set("age", 10)
+				.eq("name", "Tom");
+		final int update = userMapper.update(null, wrapper);
+		log.info("更新结果：{}", update);
 	}
 }
