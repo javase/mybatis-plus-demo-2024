@@ -27,4 +27,15 @@ class QueryDemo {
 		final List<User> users = userMapper.selectList(wrapper);
 		users.forEach(user -> log.info("{}", user));
 	}
+
+	/**
+	 * 根据年龄升序然后根据id降序
+	 */
+	@Test
+	void sort() {
+		QueryWrapper<User> wrapper = new QueryWrapper();
+		wrapper.orderByAsc("age").orderByDesc("id");
+		final List<User> users = userMapper.selectList(wrapper);
+		users.forEach(user -> log.info("{}", user));
+	}
 }
