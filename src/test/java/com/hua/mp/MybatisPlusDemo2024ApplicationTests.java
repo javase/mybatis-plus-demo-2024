@@ -1,5 +1,6 @@
 package com.hua.mp;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -122,5 +123,21 @@ class MybatisPlusDemo2024ApplicationTests {
 		for (User user : users) {
 			log.info("查询：{}", user);
 		}
+	}
+
+	@Test
+	void saveBatch() {
+		List<User> list = new ArrayList<>();
+		for (int i = 0; i < 9; i++) {
+			User user = User.builder()
+					.name("平津" + i)
+					.age(10 + i)
+					.email("aaa@163.com")
+					.build();
+			list.add(user);
+		}
+		// 3个一批进行录入
+		boolean result = iUserService.saveBatch(list,3);
+		log.info("批量录入结果：{}", result);
 	}
 }
