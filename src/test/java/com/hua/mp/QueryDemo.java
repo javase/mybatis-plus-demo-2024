@@ -8,7 +8,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hua.mp.dao.entity.User;
+import com.hua.mp.dao.mapper.AoTagMapper;
 import com.hua.mp.dao.mapper.UserMapper;
+import com.hua.mp.domain.AoTag;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +23,9 @@ class QueryDemo {
 
 	@Autowired
 	private UserMapper userMapper;
+
+	@Autowired
+	private AoTagMapper aoTagMapper;
 
 	@Test
 	void queryUser() {
@@ -150,5 +155,11 @@ class QueryDemo {
 		System.out.println("userPage.getPages() = " + userPage.getPages());
 		System.out.println("userPage.hasPrevious() = " + userPage.hasPrevious());
 		System.out.println("userPage.hasNext() = " + userPage.hasNext());
+	}
+
+	@Test
+	void queryTags() {
+		final List<AoTag> aoTags = aoTagMapper.selectList(null);
+		aoTags.forEach(t -> log.info("{}", t));
 	}
 }

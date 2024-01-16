@@ -1,4 +1,4 @@
-package com.hua.mp.service;
+package com.hua.mp.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hua.mp.dao.entity.User;
