@@ -2,9 +2,11 @@ package com.hua.mp;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hua.mp.dao.entity.User;
 import com.hua.mp.dao.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -95,5 +97,58 @@ class QueryDemo {
 				.eq("name", "Tom");
 		final int update = userMapper.update(null, wrapper);
 		log.info("更新结果：{}", update);
+	}
+
+	/**
+	 * 动态查询1
+	 */
+	@Test
+	void dynamicQuery1() {
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+
+		String name = "TomeJerry";
+		Integer age = null;
+		String email = null;
+		if (!Objects.isNull(name)) {
+			wrapper.eq("name", name);
+		}
+		if (!Objects.isNull(age)) {
+			wrapper.eq("age", age);
+		}
+		if (!Objects.isNull(email)) {
+			wrapper.eq("email", email);
+		}
+		final List<User> users = userMapper.selectList(wrapper);
+		users.forEach(a -> log.info("{}  {}", a, a.getClass()));
+	}
+
+	/**
+	 * 动态查询2
+	 */
+	@Test
+	void dynamicQuery2() {
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		String name = "TomeJerry";
+		Integer age = null;
+		String email = null;
+
+		wrapper.eq(!Objects.isNull(name), "name", name);
+		wrapper.eq(!Objects.isNull(age), "age", age);
+		wrapper.eq(!Objects.isNull(email), "email", email);
+
+		final List<User> users = userMapper.selectList(wrapper);
+		users.forEach(a -> log.info("{}  {}", a, a.getClass()));
+	}
+
+	@Test
+	void queryPage() {
+		Page<User> page = new Page<>(2, 5);
+		Page<User> userPage = userMapper.selectPage(page, null);
+		System.out.println("userPage.getCurrent() = " + userPage.getCurrent());
+		System.out.println("userPage.getSize() = " + userPage.getSize());
+		System.out.println("userPage.getTotal() = " + userPage.getTotal());
+		System.out.println("userPage.getPages() = " + userPage.getPages());
+		System.out.println("userPage.hasPrevious() = " + userPage.hasPrevious());
+		System.out.println("userPage.hasNext() = " + userPage.hasNext());
 	}
 }
