@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hua.mp.dao.mapper.GoodsTagMapper">
+
+	<resultMap id="BaseResultMap" type="com.hua.mp.dao.entity.GoodsTag">
+		<id property="id" column="id" jdbcType="VARCHAR"/>
+		<result property="goodsId" column="goods_id" jdbcType="BIGINT"/>
+		<result property="tagId" column="tag_id" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,goods_id,tag_id
+	</sql>
+
+	<select id="getGoodsTagList" resultType="java.util.Map">
+		SELECT ao_goods_tag.goods_id, GROUP_CONCAT(ao_tag.name) as tagName
+		FROM ao_goods_tag
+		LEFT JOIN ao_tag ON ao_goods_tag.tag_id = ao_tag.id
+		WHERE ao_tag.deleted = 0 AND ao_goods_tag.goods_id IN
+		<foreach collection="goodsIds" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+		GROUP BY ao_goods_tag.goods_id
+	</select>
+
+</mapper>

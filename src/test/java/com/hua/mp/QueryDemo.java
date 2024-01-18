@@ -1,5 +1,6 @@
 package com.hua.mp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -33,8 +34,13 @@ class QueryDemo {
 
 	@Test
 	void getGoodsTagList() {
-		final List<Map<String, Object>> goodsTagList = goodsTagMapper.getGoodsTagList("2028");
-		goodsTagList.forEach(g -> log.info("{}", g));
+		List<Long> params = new ArrayList<>();
+		params.add(2028L);
+		params.add(2029L);
+		final List<Map<String, Object>> goodsTagList = goodsTagMapper.getGoodsTagList(params);
+		for (Map<String, Object> stringObjectMap : goodsTagList) {
+			log.info("{}", stringObjectMap);
+		}
 	}
 
 
