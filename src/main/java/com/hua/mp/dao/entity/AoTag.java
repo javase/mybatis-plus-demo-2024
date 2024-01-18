@@ -1,4 +1,4 @@
-package com.hua.mp.domain;
+package com.hua.mp.dao.entity;
 
 import java.io.Serializable;
 import java.util.Date;

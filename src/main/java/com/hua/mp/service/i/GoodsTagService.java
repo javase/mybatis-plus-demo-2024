@@ -1,11 +1,11 @@
 package com.hua.mp.service.i;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.hua.mp.dao.entity.AoTag;
+import com.hua.mp.dao.entity.GoodsTag;
 
 /**
  *
  */
-public interface AoTagService extends IService<AoTag> {
+public interface GoodsTagService extends IService<GoodsTag> {
 
 }

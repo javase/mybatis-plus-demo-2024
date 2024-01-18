@@ -7,10 +7,11 @@ import java.util.Objects;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hua.mp.dao.entity.AoTag;
 import com.hua.mp.dao.entity.User;
 import com.hua.mp.dao.mapper.AoTagMapper;
+import com.hua.mp.dao.mapper.GoodsTagMapper;
 import com.hua.mp.dao.mapper.UserMapper;
-import com.hua.mp.domain.AoTag;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,16 @@ class QueryDemo {
 
 	@Autowired
 	private AoTagMapper aoTagMapper;
+
+	@Autowired
+	private GoodsTagMapper goodsTagMapper;
+
+	@Test
+	void getGoodsTagList() {
+		final List<Map<String, Object>> goodsTagList = goodsTagMapper.getGoodsTagList("2028");
+		goodsTagList.forEach(g -> log.info("{}", g));
+	}
+
 
 	@Test
 	void queryUser() {
