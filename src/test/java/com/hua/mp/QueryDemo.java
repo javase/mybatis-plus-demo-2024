@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -37,6 +38,9 @@ class QueryDemo {
 		List<Long> params = new ArrayList<>();
 		params.add(2028L);
 		params.add(2029L);
+
+		log.info("{}",params.stream().map(Object::toString).collect(Collectors.joining(",")));
+
 		final List<Map<String, Object>> goodsTagList = goodsTagMapper.getGoodsTagList(params);
 		for (Map<String, Object> stringObjectMap : goodsTagList) {
 			log.info("{}", stringObjectMap);
